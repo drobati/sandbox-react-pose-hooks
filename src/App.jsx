@@ -9,11 +9,22 @@ const Box = posed.div({
 function App() {
   const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    setInterval(() => {
-      setVisible(!visible);
-    }, 1000);
-  });
+  useEffect(
+    () => {
+      let id;
+
+      id = setInterval(() => {
+        setVisible(!visible);
+      }, 1000);
+
+      return () => {
+        if (id) {
+          clearInterval(id);
+        }
+      };
+    },
+    [visible]
+  );
 
   return <Box className="box" pose={visible ? "visible" : "hidden"} />;
 }
